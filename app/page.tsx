@@ -162,7 +162,7 @@ const scenarios = [
     ),
   },
   {
-    title: "How Long Is My Runway?",
+    title: "How Long Will My Cash Last?",
     description: "See how many months of cash you have left at your current burn rate.",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -401,8 +401,8 @@ export default function WaitlistPage() {
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} className="font-body text-body text-white/80 hover:text-white transition-colors">{link.label}</a>
             ))}
-            <a href="#final-cta" className="inline-flex items-center justify-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400] active:bg-[#A33B00] shadow-sm hover:shadow-md transition-all duration-150 ease-out">
-              Join Waitlist
+            <a href="#features" className="inline-flex items-center justify-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400] active:bg-[#A33B00] shadow-sm hover:shadow-md transition-all duration-150 ease-out">
+              Tell Me More
             </a>
           </div>
 
@@ -416,8 +416,8 @@ export default function WaitlistPage() {
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} className="block font-body text-body text-white/70 hover:text-white py-1" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
             ))}
-            <a href="#final-cta" className="block w-full text-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400]" onClick={() => setMobileMenuOpen(false)}>
-              Join Waitlist
+            <a href="#features" className="block w-full text-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400]" onClick={() => setMobileMenuOpen(false)}>
+              Tell Me More
             </a>
           </div>
         )}
@@ -602,7 +602,7 @@ export default function WaitlistPage() {
                   <div className="space-y-3">
                     {[
                       { text: "You can hire. Your numbers support it.", color: "#43A047" },
-                      { text: "Runway stays above 6 months after the hire.", color: "#43A047" },
+                      { text: "Positive Cash Availability stays above 6 months after the hire.", color: "#43A047" },
                       { text: "Risk level: Low.", color: "#43A047" },
                       { text: "Watch: Receivables are aging. Follow up on 3 invoices.", color: "#FB8C00" },
                       { text: "Profit margin is healthy at 18.4%.", color: "#43A047" },
