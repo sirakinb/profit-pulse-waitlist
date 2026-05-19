@@ -236,6 +236,60 @@ function ChevronIcon({ open }: { open: boolean }) {
 }
 
 /* ══════════════════════════════════════════════════════════════════
+   BOUNCING MASCOT (DVD-logo style)
+   ══════════════════════════════════════════════════════════════════ */
+
+function BouncingMascot() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const size = 96;
+    let x = Math.random() * (window.innerWidth - size);
+    let y = Math.max(140, Math.random() * (window.innerHeight - size));
+    let vx = 1.6 * (Math.random() > 0.5 ? 1 : -1);
+    let vy = 1.3 * (Math.random() > 0.5 ? 1 : -1);
+    let raf = 0;
+
+    const tick = () => {
+      const w = window.innerWidth - size;
+      const h = window.innerHeight - size;
+      x += vx;
+      y += vy;
+      if (x <= 0) { x = 0; vx = -vx; }
+      if (x >= w) { x = w; vx = -vx; }
+      if (y <= 0) { y = 0; vy = -vy; }
+      if (y >= h) { y = h; vy = -vy; }
+      el.style.transform = `translate(${x}px, ${y}px) scaleX(${vx < 0 ? -1 : 1})`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className="fixed top-0 left-0 z-40 pointer-events-none"
+      style={{ willChange: "transform" }}
+      aria-hidden="true"
+    >
+      <Image
+        src="/profit-pulse-mascot2.png"
+        alt=""
+        width={96}
+        height={96}
+        className="drop-shadow-2xl select-none"
+        priority
+      />
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════
    DASHBOARD PREVIEW
    ══════════════════════════════════════════════════════════════════ */
 
@@ -337,6 +391,7 @@ export default function WaitlistPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <BouncingMascot />
       {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-b from-[#2D2A26]/80 via-[#2D2A26]/40 to-transparent backdrop-blur-[2px]">
         <nav className="max-w-6xl mx-auto px-2 md:px-6 flex items-center justify-between h-[110px]">
@@ -346,7 +401,7 @@ export default function WaitlistPage() {
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} className="font-body text-body text-white/80 hover:text-white transition-colors">{link.label}</a>
             ))}
-            <a href="#join" className="inline-flex items-center justify-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400] active:bg-[#A33B00] shadow-sm hover:shadow-md transition-all duration-150 ease-out">
+            <a href="#final-cta" className="inline-flex items-center justify-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400] active:bg-[#A33B00] shadow-sm hover:shadow-md transition-all duration-150 ease-out">
               Join Waitlist
             </a>
           </div>
@@ -361,7 +416,7 @@ export default function WaitlistPage() {
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} className="block font-body text-body text-white/70 hover:text-white py-1" onClick={() => setMobileMenuOpen(false)}>{link.label}</a>
             ))}
-            <a href="#join" className="block w-full text-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400]" onClick={() => setMobileMenuOpen(false)}>
+            <a href="#final-cta" className="block w-full text-center font-medium rounded-lg px-3 py-1.5 text-[13px] bg-orange text-white hover:bg-[#BF4400]" onClick={() => setMobileMenuOpen(false)}>
               Join Waitlist
             </a>
           </div>
@@ -674,7 +729,7 @@ export default function WaitlistPage() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="relative py-8 md:py-[120px] bg-[#2D2A26] overflow-hidden">
+      <section id="final-cta" className="relative py-8 md:py-[120px] bg-[#2D2A26] overflow-hidden scroll-mt-[120px]">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(230,81,0,0.15) 0%, transparent 70%)" }} aria-hidden="true" />
         <div className="relative z-10 max-w-3xl mx-auto px-2 md:px-6 text-center">
           <RevealSection>
