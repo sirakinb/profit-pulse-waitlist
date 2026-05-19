@@ -240,7 +240,7 @@ function ChevronIcon({ open }: { open: boolean }) {
    ══════════════════════════════════════════════════════════════════ */
 
 function BouncingMascot() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -271,11 +271,13 @@ function BouncingMascot() {
   }, []);
 
   return (
-    <div
+    <a
       ref={ref}
-      className="fixed top-0 left-0 z-40 pointer-events-none"
+      href="#faq"
+      className="fixed top-0 left-0 z-40 cursor-pointer hover:brightness-110 transition-[filter] duration-200"
       style={{ willChange: "transform" }}
-      aria-hidden="true"
+      aria-label="Jump to FAQ"
+      title="Got questions? Click me!"
     >
       <Image
         src="/profit-pulse-mascot2.png"
@@ -285,7 +287,7 @@ function BouncingMascot() {
         className="drop-shadow-2xl select-none"
         priority
       />
-    </div>
+    </a>
   );
 }
 
