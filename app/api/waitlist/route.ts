@@ -1,17 +1,5 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-
-const WAITLIST_FILE = path.join(process.cwd(), "waitlist.json");
-
-async function getEmails(): Promise<string[]> {
-  try {
-    const data = await fs.readFile(WAITLIST_FILE, "utf-8");
-    return JSON.parse(data);
-  } catch {
-    return [];
-  }
-}
+import { after } from "next/server";
 
 export async function POST(request: Request) {
   const { email } = await request.json();
@@ -23,17 +11,31 @@ export async function POST(request: Request) {
     );
   }
 
-  const emails = await getEmails();
+  const normalizedEmail = email.toLowerCase().trim();
+  const webhookUrl = process.env.GHL_WEBHOOK_URL;
 
-  if (emails.includes(email.toLowerCase())) {
-    return NextResponse.json(
-      { message: "You're already on the waitlist!" },
-      { status: 200 }
-    );
+  if (webhookUrl) {
+    after(async () => {
+      try {
+        const res = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: normalizedEmail,
+            source: "profit-pulse-waitlist",
+            submittedAt: new Date().toISOString(),
+          }),
+        });
+        if (!res.ok) {
+          console.error("GHL webhook failed", res.status, await res.text());
+        }
+      } catch (err) {
+        console.error("GHL webhook error", err);
+      }
+    });
+  } else {
+    console.warn("GHL_WEBHOOK_URL not set — skipping forward");
   }
-
-  emails.push(email.toLowerCase());
-  await fs.writeFile(WAITLIST_FILE, JSON.stringify(emails, null, 2));
 
   return NextResponse.json(
     { message: "You're on the list! We'll be in touch soon." },

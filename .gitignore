@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local waitlist store (legacy, replaced by GHL webhook)
+/waitlist.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
