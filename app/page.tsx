@@ -247,7 +247,7 @@ function BouncingMascot() {
     if (!el) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    const size = 96;
+    const size = 160;
     let x = Math.random() * (window.innerWidth - size);
     let y = Math.max(140, Math.random() * (window.innerHeight - size));
     let vx = 1.6 * (Math.random() > 0.5 ? 1 : -1);
@@ -280,8 +280,8 @@ function BouncingMascot() {
       <Image
         src="/profit-pulse-mascot2.png"
         alt=""
-        width={96}
-        height={96}
+        width={160}
+        height={160}
         className="drop-shadow-2xl select-none"
         priority
       />
